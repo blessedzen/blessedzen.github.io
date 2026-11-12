@@ -8,22 +8,7 @@
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://site.api.espn.com https://site.web.api.espn.com; img-src 'self' data: https:; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>NBA Stat Checker</title>
-<style>
-:root{--bg:#0b1220;--panel:#121d30;--panel2:#19263b;--line:#2a3a52;--text:#f4f7fb;--muted:#9aabc2;--orange:#f59e0b;--green:#34d399;--red:#fb7185}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#1c3150 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:24px}
-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.08em}.ball{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--orange);color:#111827;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.16em;font-weight:650}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #34d39988}
-.hero{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:24px 0}.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.02;letter-spacing:-.045em;margin:8px 0}.hero p{color:var(--muted);margin:0;max-width:600px}.updated{color:var(--muted);font-size:12px;white-space:nowrap}
-nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px}.tab{border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 15px;border-radius:999px;font-weight:700}.tab.active,.tab:hover{background:var(--orange);border-color:var(--orange);color:#111827}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:linear-gradient(145deg,#17243a,#111b2c);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}
-.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.card h2{font-size:16px;margin:0}.muted{color:var(--muted)}.tiny{font-size:12px;color:var(--muted)}.controls{display:flex;gap:8px;flex-wrap:wrap}.field{background:#0c1627;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 12px;min-width:0;outline:none}.field:focus{border-color:var(--orange);box-shadow:0 0 0 3px #f59e0b22}.search{flex:1;min-width:200px}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--orange);color:#111827;font-weight:800}.btn.secondary{background:#26364e;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}
-.scoregrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.game{background:#0c1728;border:1px solid var(--line);border-radius:13px;padding:14px}.game-top{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:12px}.teamrow{display:flex;align-items:center;justify-content:space-between;margin:8px 0;font-weight:750}.teamrow strong{font-size:20px}.game-foot{border-top:1px solid var(--line);padding-top:9px;margin-top:10px;font-size:11px;color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.stat{background:#0c1728;border:1px solid var(--line);border-radius:12px;padding:12px}.stat b{display:block;font-size:23px;letter-spacing:-.03em}.stat span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:480px}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.result-list{display:grid;gap:8px;margin-top:12px}.result{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:11px;background:#0c1728;border:1px solid var(--line)}.result button{background:none;border:0;color:var(--text);font-weight:750;text-align:left}.result button:hover{color:var(--orange)}
-.placeholder{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.error{color:#fecdd3;background:#4c1d2b66;border:1px solid #9f3652;padding:10px 12px;border-radius:10px;font-size:12px;margin-top:10px}.hidden{display:none!important}.tag{font-size:10px;padding:4px 8px;border-radius:999px;background:#26364e;color:#cbd5e1;font-weight:800}.tag.live{background:#064e3b;color:#a7f3d0}.footer{margin:28px 0 8px;text-align:center;color:var(--muted);font-size:11px}.loading{color:var(--muted);font-size:13px}
-@media(max-width:760px){.wrap{padding:16px}.hero{display:block}.updated{display:block;margin-top:12px}.span8,.span7,.span6,.span5,.span4{grid-column:span 12}.stats{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.status{max-width:125px;text-align:right}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
@@ -76,6 +61,11 @@ nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padd
  <article class="card">
   <div class="cardhead"><h2>Team statistics</h2><span class="tag">TEAM DIRECTORY</span></div>
   <div class="controls"><select class="field search" id="teamSelect"><option value="">Choose an NBA team…</option></select><button class="btn" id="teamGo">View team</button></div>
+  <div class="favorites-panel">
+   <div class="cardhead"><h2>My favorite teams</h2><span class="tag">SAVED ON THIS DEVICE</span></div>
+   <p class="tiny">Your favorites stay saved after you refresh or close the browser.</p>
+   <div id="favoriteTeams" class="result-list"><p class="tiny">No favorite teams saved yet.</p></div>
+  </div>
   <div id="teamProfile" style="margin-top:18px"></div>
  </article>
 </section>
@@ -94,119 +84,5 @@ nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padd
 </main>
 <div class="footer">Unofficial fan-made project. Not affiliated with the NBA or ESPN. Statistics are provided by ESPN's publicly accessible data services and may be delayed or unavailable.</div>
 </div>
-<script>
-"use strict";
-const API="https://site.api.espn.com/apis/site/v2/sports/basketball/nba";
-const CORE="https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba";
-const SEARCH="https://site.web.api.espn.com/apis/search/v2";
-const $=id=>document.getElementById(id);
-const state={teams:[],picked:[null,null]};
-const safe=(v)=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-async function getJSON(url){const r=await fetch(url,{headers:{Accept:"application/json"}});if(!r.ok)throw new Error("Data provider returned HTTP "+r.status);return r.json()}
-function setConnection(ok,msg){$("connection").textContent=msg;$("connection").previousElementSibling.style.background=ok?"var(--green)":"var(--red)"}
-function showError(id,msg){$(id).innerHTML='<div class="error">'+safe(msg)+'</div>'}
-function statVal(obj,keys){for(const k of keys){if(obj&&obj[k]!=null)return obj[k]}return "—"}
-function teamName(t){return t?.displayName||t?.name||"Team"}
-function eventStatus(e){return e?.status?.type?.shortDetail||e?.status?.type?.description||"Scheduled"}
-async function loadScores(){
- $("scores").innerHTML='<div class="loading">Refreshing scoreboard…</div>';$("scoreError").innerHTML="";
- try{
-  const data=await getJSON(API+"/scoreboard");
-  const events=data.events||[];
-  $("scores").innerHTML=events.length?events.map(e=>{
-   const c=e.competitions?.[0], comps=c?.competitors||[],home=comps.find(x=>x.homeAway==="home")||comps[0],away=comps.find(x=>x.homeAway==="away")||comps[1],live=e.status?.type?.state==="in";
-   return '<div class="game"><div class="game-top"><span>'+safe(eventStatus(e))+'</span><span class="'+(live?'tag live':'tag')+'">'+(live?'LIVE':'NBA')+'</span></div><div class="teamrow"><span>'+safe(teamName(away?.team))+'</span><strong>'+safe(away?.score??"—")+'</strong></div><div class="teamrow"><span>'+safe(teamName(home?.team))+'</span><strong>'+safe(home?.score??"—")+'</strong></div><div class="game-foot">'+safe(c?.date?new Date(c.date).toLocaleString():"Game date unavailable")+'</div></div>'
-  }).join(""):'<div class="placeholder" style="grid-column:1/-1">No games listed for today. Check back on a game day.</div>';
-  setConnection(true,"Connected");$("updated").textContent="Last checked: "+new Date().toLocaleTimeString();
- }catch(e){$("scores").innerHTML='<div class="placeholder" style="grid-column:1/-1">Could not load the scoreboard.</div>';showError("scoreError",e.message+" — Check your connection and try again.");setConnection(false,"Unavailable")}
-}
-async function loadTeams(){
- try{
-  const d=await getJSON(API+"/teams?limit=50");state.teams=d.sports?.[0]?.leagues?.[0]?.teams?.map(x=>x.team)||[];
-  for(const id of ["teamSelect","teamQuick"]){const s=$(id);state.teams.forEach(t=>{const o=document.createElement("option");o.value=t.id;o.textContent=t.displayName||t.name;s.appendChild(o)})}
- }catch(e){setConnection(false,"Partial data");}
-}
-async function searchPlayers(q,target){
- const box=$(target);box.innerHTML='<div class="loading">Searching…</div>';
- if(!q.trim()){box.innerHTML='<p class="tiny">Enter a player name first.</p>';return}
- try{
-  const d=await getJSON(SEARCH+"?query="+encodeURIComponent(q)+"&sport=basketball&league=nba&limit=20");
-  let items=[];
-  const groups=d.results||[];
-  for(const group of groups){
-   const contents=group.contents||group.items||[];
-   for(const item of contents){
-    const candidate=item.athlete||item;
-    if(candidate.id&&(candidate.displayName||candidate.fullName||candidate.name)&&(!item.type||String(item.type).toLowerCase().includes("athlete")||candidate.position))items.push(candidate);
-   }
-  }
-  if(!items.length){items=(d.items||d.athletes||[]).map(x=>x.athlete||x).filter(x=>x.id&&(x.displayName||x.fullName||x.name))}
-  if(!items.length){box.innerHTML='<div class="placeholder">No matching players found. Try a different spelling.</div>';return}
-  box.innerHTML=items.slice(0,12).map(p=>'<div class="result"><button data-player="'+safe(p.id)+'" data-name="'+safe(p.displayName||p.fullName||p.name)+'">'+safe(p.displayName||p.fullName||p.name)+'</button><span class="tiny">'+safe(p.position?.abbreviation||p.position||"NBA player")+'</span></div>').join("");
-  box.querySelectorAll("[data-player]").forEach(b=>b.addEventListener("click",()=>loadPlayer(b.dataset.player,b.dataset.name,target==="playerResults"?"playerProfile":target==="dashPlayerResults"?"dashPlayerResults":null)));
- }catch(e){box.innerHTML='<div class="error">Player search is unavailable from the data provider right now. Try again shortly.</div>'}
-}
-function renderStats(stats){
- const list=Array.isArray(stats)?stats:(stats?.splits?.categories||stats?.categories||[]);
- let flat=[];
- for(const cat of list){
-  if(Array.isArray(cat.stats)){for(const s of cat.stats){flat.push({name:s.displayName||s.name||s.abbreviation,value:s.displayValue??s.value??"—"})}}
-  if(Array.isArray(cat.labels)&&Array.isArray(cat.totals)){cat.labels.forEach((label,i)=>flat.push({name:label,value:cat.totals[i]??"—"}))}
- }
- if(!flat.length&&stats?.statistics?.names){stats.statistics.names.forEach((name,i)=>flat.push({name,value:stats.statistics.displayValues?.[i]??stats.statistics.values?.[i]??"—"}))}
- if(!flat.length)return '<div class="placeholder">The provider did not return a season stat line for this player.</div>';
- const wanted=["Points Per Game","Rebounds Per Game","Assists Per Game","Steals Per Game","Blocks Per Game","Field Goal Percentage","Three Point Field Goal Percentage","Free Throw Percentage"];
- const chosen=wanted.map(w=>flat.find(x=>x.name.toLowerCase()===w.toLowerCase())).filter(Boolean);
- const show=(chosen.length?chosen:flat).slice(0,12);
- return '<div class="stats">'+show.map(s=>'<div class="stat"><b>'+safe(s.value)+'</b><span>'+safe(s.name)+'</span></div>').join("")+'</div>';
-}
-async function loadPlayer(id,name,profileId){
- const target=profileId||"playerProfile";$(target).innerHTML='<div class="loading">Loading '+safe(name)+'…</div>';
- try{
-  const [bio,stats]=await Promise.allSettled([getJSON(CORE+"/athletes/"+encodeURIComponent(id)+"/overview"),getJSON(CORE+"/athletes/"+encodeURIComponent(id)+"/stats")]);
-  const a=bio.status==="fulfilled"?(bio.value.athlete||bio.value):{};
-  const statData=stats.status==="fulfilled"?stats.value:(bio.status==="fulfilled"?bio.value:null);
-  const details='<div class="cardhead"><div><h2>'+safe(a.displayName||name)+'</h2><div class="tiny">'+safe(a.position?.displayName||a.position||"NBA player")+(a.team?.displayName?" · "+safe(a.team.displayName):"")+'</div></div><span class="tag">PLAYER PROFILE</span></div>';
-  const statsHtml=statData?renderStats(statData):'<div class="placeholder">Player profile loaded, but season statistics were not available from the provider.</div>';
-  $(target).innerHTML=details+statsHtml+(stats.status==="rejected"?'<p class="tiny">Statistics endpoint did not respond. You can still search another player.</p>':"");
-  if(target==="dashPlayerResults")$(target).insertAdjacentHTML("beforeend",'<p class="tiny">Profile displayed above the search results.</p>');
- }catch(e){$(target).innerHTML='<div class="error">Could not load this player profile. Please try again.</div>'}
-}
-async function loadTeam(id,target){
- const t=state.teams.find(x=>String(x.id)===String(id));if(!t)return;
- $(target).innerHTML='<div class="loading">Loading team information…</div>';
- try{
-  const [info,stats]=await Promise.allSettled([getJSON(API+"/teams/"+encodeURIComponent(id)),getJSON(API+"/teams/"+encodeURIComponent(id)+"/statistics")]);
-  const d=info.status==="fulfilled"?(info.value.team||info.value):t;
-  const s=stats.status==="fulfilled"?stats.value:null;
-  $(target).innerHTML='<div class="cardhead"><div><h2>'+safe(d.displayName||teamName(t))+'</h2><div class="tiny">'+safe(d.location||"NBA")+' · '+safe(d.abbreviation||"")+'</div></div><span class="tag">TEAM PROFILE</span></div>'+(s?renderStats(s):'<div class="placeholder">Team profile loaded. Team statistics are not available from this endpoint right now.</div>');
- }catch(e){$(target).innerHTML='<div class="error">Could not load team information.</div>'}
-}
-function wireSearch(input,button,target){$(button).addEventListener("click",()=>searchPlayers($(input).value,target));$(input).addEventListener("keydown",e=>{if(e.key==="Enter")searchPlayers($(input).value,target)})}
-function pickPlayer(slot,id,name){
- state.picked[slot]={id,name};$("comparePick"+(slot+1)).textContent="Selected: "+name;
- if(state.picked.every(Boolean))comparePlayers();
-}
-async function comparePlayers(){
- $("comparison").innerHTML='<div class="loading">Loading comparison…</div>';
- try{
-  const results=await Promise.all(state.picked.map(p=>getJSON(CORE+"/athletes/"+encodeURIComponent(p.id)+"/stats")));
-  const extract=d=>{let out={};const cats=d.categories||d.splits?.categories||[];cats.forEach(c=>{if(Array.isArray(c.stats))c.stats.forEach(s=>out[(s.displayName||s.name||"").toLowerCase()]=s.displayValue??s.value);if(Array.isArray(c.labels)&&Array.isArray(c.totals))c.labels.forEach((label,i)=>out[label.toLowerCase()]=c.totals[i]);});return out};
-  const a=extract(results[0]),b=extract(results[1]),keys=["points per game","rebounds per game","assists per game","steals per game","blocks per game","field goal percentage","three point field goal percentage","free throw percentage"];
-  $("comparison").innerHTML='<div class="tablewrap"><table><thead><tr><th>Statistic</th><th class="num">'+safe(state.picked[0].name)+'</th><th class="num">'+safe(state.picked[1].name)+'</th></tr></thead><tbody>'+keys.map(k=>'<tr><td>'+safe(k.replace(/\b\w/g,x=>x.toUpperCase()))+'</td><td class="num">'+safe(a[k]??"—")+'</td><td class="num">'+safe(b[k]??"—")+'</td></tr>').join("")+'</tbody></table></div>';
- }catch(e){$("comparison").innerHTML='<div class="error">Could not retrieve one or both stat lines. The provider may not expose comparison data for these players.</div>'}
-}
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==b.dataset.tab))}));
-$("refreshScores").addEventListener("click",loadScores);
-wireSearch("dashPlayerSearch","dashPlayerGo","dashPlayerResults");
-wireSearch("playerSearch","playerGo","playerResults");
-$("teamGo").addEventListener("click",()=>loadTeam($("teamSelect").value,"teamProfile"));
-$("teamQuick").addEventListener("change",()=>loadTeam($("teamQuick").value,"teamQuickInfo"));
-[1,2].forEach(n=>{$("compareGo"+n).addEventListener("click",async()=>{
- const slot=n-1,box=$("compareResults"+n),q=$("compareSearch"+n).value;
- await searchPlayers(q,"compareResults"+n);
- box.querySelectorAll("[data-player]").forEach(b=>b.addEventListener("click",()=>pickPlayer(slot,b.dataset.player,b.dataset.name)));
-});$("compareSearch"+n).addEventListener("keydown",e=>{if(e.key==="Enter")$("compareGo"+n).click()})});
-loadScores();loadTeams();setInterval(loadScores,60000);
-</script>
+<script src="script.js" defer></script>
 </body></html>

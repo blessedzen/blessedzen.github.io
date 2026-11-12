@@ -1,14 +1,128 @@
+/*
+  WHAT IS THIS FILE?
+  CSS (Cascading Style Sheets) controls how the page LOOKS: colors, fonts, spacing, and layout.
+  The HTML says what is on the page; this file says how it is styled.
+
+  A CSS "rule" has three parts:
+    selector { property: value; }
+  - The selector picks which elements to style. ".card" means "everything with class card",
+    "#scores" would mean "the element with id scores", and plain names like "header" or "table"
+    mean "every header" or "every table".
+  - A property is the thing being changed (like color), and the value is what to change it to.
+  Many rules below are written on one long line to save space. Each comment sits above the line it describes.
+*/
+
+/*
+  CSS VARIABLES: ":root" means the whole page. Names starting with -- are custom variables, which are
+  nicknames for values we reuse. Later, var(--orange) means "use the orange color defined here".
+  Changing a color here changes it everywhere at once.
+  The values like #0b1220 are "hex colors": a code for a color in the form #RRGGBB (red, green, blue).
+*/
 :root{--bg:#0b1220;--panel:#121d30;--panel2:#19263b;--line:#2a3a52;--text:#f4f7fb;--muted:#9aabc2;--orange:#f59e0b;--green:#34d399;--red:#fb7185}
+/*
+  "*" means every element. box-sizing:border-box makes an element's width include its padding and border, which makes layouts predictable.
+  body is the whole visible page: no outer margin, a dark blue background with a soft glow in the top-left
+  (a "radial-gradient" is a color fade that spreads out from a point), light text, and a font list
+  (the browser uses the first font available on the visitor's device).
+*/
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#1c3150 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+/*
+  Buttons, text boxes, and drop-downs normally ignore the page font; "font:inherit" makes them copy it.
+  cursor:pointer turns the mouse into a hand when hovering over a button.
+  .wrap is the main container: it is at most 1200px wide, centered ("margin:auto"), with 24px of padding (inner spacing).
+*/
 button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1200px;margin:auto;padding:24px}
+/*
+  "display:flex" is a layout mode that lines children up in a row and lets us space them out.
+  header: logo on the left, status on the right ("justify-content:space-between"), items vertically centered.
+  .brand: the logo block, bold with wide letter spacing.
+  .ball: the orange rounded square holding the basketball emoji.
+  .brand small: the tagline under the site name (smaller, gray).
+  .status: the "Live data connection" text group.
+  .dot: the small green circle with a glow ("box-shadow") next to the status text. border-radius:50% makes a square into a circle.
+*/
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:.08em}.ball{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--orange);color:#111827;font-size:24px}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.16em;font-weight:650}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #34d39988}
+/*
+  HERO BANNER styles.
+  .hero: headline on the left and "last checked" time on the right.
+  .eyebrow: the small orange uppercase label above the headline.
+  .hero h1: the big headline; clamp(min, ideal, max) makes the text size shrink and grow with the screen width.
+  .hero p: the gray description text under the headline.
+  .updated: the "Last checked" text; white-space:nowrap keeps it on one line.
+*/
 .hero{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:24px 0}.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.hero h1{font-size:clamp(32px,5vw,54px);line-height:1.02;letter-spacing:-.045em;margin:8px 0}.hero p{color:var(--muted);margin:0;max-width:600px}.updated{color:var(--muted);font-size:12px;white-space:nowrap}
+/*
+  NAVIGATION TABS.
+  nav: the row holding the tab buttons ("flex-wrap:wrap" lets them drop to a second line on narrow screens), with a line underneath.
+  .tab: each button is a pill shape (border-radius:999px makes the ends fully round) with muted text.
+  .tab.active (the selected tab) and .tab:hover (a tab the mouse is over) turn orange.
+  ":hover" is a "pseudo-class": a style that applies only in a certain situation.
+*/
 nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:20px}.tab{border:1px solid var(--line);background:transparent;color:var(--muted);padding:9px 15px;border-radius:999px;font-weight:700}.tab.active,.tab:hover{background:var(--orange);border-color:var(--orange);color:#111827}
+/*
+  GRID AND CARDS.
+  .grid: a "CSS grid" layout with 12 equal columns. repeat(12,1fr) means "12 columns, each one share of the space".
+  .card: the rounded, bordered panels that hold each section of content.
+  .span12, .span8, etc.: how many of the 12 columns a card takes. span12 = full width, span6 = half, and so on.
+*/
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:linear-gradient(145deg,#17243a,#111b2c);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}
+/*
+  CARD HEADINGS, TEXT HELPERS, FORM CONTROLS, AND BUTTONS.
+  .cardhead: the title row at the top of a card (title on the left, tag or button on the right).
+  .card h2: card title size. .muted and .tiny: gray text helpers (.tiny is also small).
+  .controls: a row holding a search box and its button.
+  .field: the look of text boxes and drop-downs (dark background, rounded corners, no default outline).
+  .field:focus: when you click into a box, it gets an orange border and soft glow so you can see where you are typing.
+  .search: lets a search box stretch to fill the row, but never get narrower than 200px.
+  .btn: the main orange button. .btn.secondary: a gray version used for less important actions like Refresh.
+  .btn:disabled: a button that cannot be clicked looks faded.
+*/
 .cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.card h2{font-size:16px;margin:0}.muted{color:var(--muted)}.tiny{font-size:12px;color:var(--muted)}.controls{display:flex;gap:8px;flex-wrap:wrap}.field{background:#0c1627;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 12px;min-width:0;outline:none}.field:focus{border-color:var(--orange);box-shadow:0 0 0 3px #f59e0b22}.search{flex:1;min-width:200px}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--orange);color:#111827;font-weight:800}.btn.secondary{background:#26364e;color:var(--text);border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}
+/*
+  SCOREBOARD.
+  .scoregrid: a grid of game boxes. repeat(auto-fit,minmax(220px,1fr)) means "fit as many columns as possible, each at least 220px wide".
+  .game: one game's box. .game-top: the status row (such as "Final" and the LIVE tag).
+  .teamrow: one team's name on the left and its score on the right. .teamrow strong: makes the score large.
+  .game-foot: the date/time line at the bottom of the box, with a thin line above it.
+*/
 .scoregrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.game{background:#0c1728;border:1px solid var(--line);border-radius:13px;padding:14px}.game-top{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:12px}.teamrow{display:flex;align-items:center;justify-content:space-between;margin:8px 0;font-weight:750}.teamrow strong{font-size:20px}.game-foot{border-top:1px solid var(--line);padding-top:9px;margin-top:10px;font-size:11px;color:var(--muted)}
+/*
+  PLAYER STAT TILES.
+  .stats: a grid of 4 equal columns holding small stat boxes.
+  .stat: one tile. .stat b: the big number (like points per game). .stat span: the small uppercase label under it.
+*/
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.stat{background:#0c1728;border:1px solid var(--line);border-radius:12px;padding:12px}.stat b{display:block;font-size:23px;letter-spacing:-.03em}.stat span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+/*
+  TABLES (used for team rosters and the player comparison).
+  .tablewrap: lets a wide table scroll sideways instead of breaking the layout ("overflow:auto").
+  table: collapses double borders into single lines and fills the available width.
+  th = a header cell (column title), td = a normal data cell.
+  td.num and th.num: number columns, right-aligned. "tabular-nums" makes digits equal width so they line up neatly.
+*/
 .tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:480px}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+/*
+  SEARCH RESULT LISTS.
+  .result-list: a vertical stack of results with space between them.
+  .result: one result row (a name button on the left, extra details on the right).
+  .result button: the player or team name looks like plain bold text instead of a button.
+  .result button:hover: the name turns orange when the mouse is over it.
+*/
 .result-list{display:grid;gap:8px;margin-top:12px}.result{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border-radius:11px;background:#0c1728;border:1px solid var(--line)}.result button{background:none;border:0;color:var(--text);font-weight:750;text-align:left}.result button:hover{color:var(--orange)}
+/*
+  MESSAGES, TAGS, AND UTILITIES.
+  .placeholder: a dashed-border box with a hint such as "Select a team to inspect its profile."
+  .error: a red-tinted box for error messages.
+  .hidden: hides an element completely. script.js adds or removes this class to switch tabs.
+  "!important" forces this rule to win over any other rule that conflicts with it.
+  .tag: the small pill-shaped labels such as "PLAYER LOOKUP". .tag.live: the green version for games in progress.
+  .footer: the small centered disclaimer text. .loading: the gray "Loading…" message.
+*/
 .placeholder{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.error{color:#fecdd3;background:#4c1d2b66;border:1px solid #9f3652;padding:10px 12px;border-radius:10px;font-size:12px;margin-top:10px}.hidden{display:none!important}.tag{font-size:10px;padding:4px 8px;border-radius:999px;background:#26364e;color:#cbd5e1;font-weight:800}.tag.live{background:#064e3b;color:#a7f3d0}.footer{margin:28px 0 8px;text-align:center;color:var(--muted);font-size:11px}.loading{color:var(--muted);font-size:13px}
+/*
+  MOBILE LAYOUT. A "media query" (@media) applies its rules only when a condition is true.
+  Here the condition is "the screen is 760 pixels wide or narrower", which means phones and small windows.
+  On small screens: less padding, the hero stacks vertically instead of side by side, every card spans
+  the full width (12 columns) so they stack, stat tiles go from 4 across to 2 across, and the header and
+  status text are adjusted to fit.
+*/
 @media(max-width:760px){.wrap{padding:16px}.hero{display:block}.updated{display:block;margin-top:12px}.span8,.span7,.span6,.span5,.span4{grid-column:span 12}.stats{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start}.status{max-width:125px;text-align:right}}

@@ -1,25 +1,78 @@
+<!--
+  WHAT IS THIS FILE?
+  HTML (HyperText Markup Language) is the "skeleton" of a web page. It lists what is ON the page:
+  headings, buttons, text boxes, and so on. It does not decide how things look (that is style.css)
+  or how things behave (that is script.js).
+
+  HTML is built from "tags" written in angle brackets, like <p>...</p> (a paragraph).
+  Most tags have an opening part <p> and a closing part </p>, with content in between.
+  A tag can have "attributes", extra settings written inside the opening tag, like id="scores".
+  An "id" is a unique name that lets script.js find that exact element later.
+  A "class" is a label that style.css uses to decide how an element should look.
+  Elements can be nested inside other elements, like boxes inside boxes.
+-->
+<!--
+  The doctype line tells the browser "this is a modern HTML5 page".
+  Without it, some browsers switch to an old, quirky mode.
+-->
 <!doctype html>
+<!-- <html> wraps the entire page. lang="en" says the page is in English (helps screen readers and translation). -->
 <html lang="en">
+<!-- <head> holds behind-the-scenes information about the page. Nothing in the head is shown directly on screen. -->
 <head>
+<!-- Tells the browser which character set to use, so letters, symbols, and emoji display correctly. -->
 <meta charset="utf-8">
+<!-- Makes the page fit phone screens properly instead of looking like a tiny zoomed-out desktop page. -->
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- A short summary of the site. Search engines may show this under the page's title in results. -->
 <meta name="description" content="NBA Stat Checker — live scores, player stats, team stats, and comparisons.">
+<!-- On some phones, this colors the browser's top bar to match the site's dark blue. -->
 <meta name="theme-color" content="#101827">
+<!-- Privacy setting: when a visitor clicks a link, don't tell the next website which page they came from. -->
 <meta name="referrer" content="no-referrer">
+<!--
+  Content Security Policy (CSP): a safety rulebook for the browser. It limits where the page may load
+  code, data, and images from, which helps protect visitors from malicious code being injected.
+  Reading the rules:
+  - default-src 'self'      : by default, only load things from this same website.
+  - script-src 'self'       : JavaScript may only come from this website's own files.
+  - style-src ...           : CSS may come from this website (plus small inline styles written in the HTML).
+  - connect-src ...         : the page may ONLY request data from ESPN (scores) and nbaapi.com (player/team stats).
+  - img-src ...             : images may come from this site, from "data:" (tiny images embedded in code), or any https site.
+  - object-src 'none'       : block old plugin-style embeds.
+  - base-uri / form-action  : restrict link base addresses and form submissions to this site.
+-->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src https://site.api.espn.com https://api.server.nbaapi.com; img-src 'self' data: https:; object-src 'none'; base-uri 'self'; form-action 'self'">
+<!-- The title appears on the browser tab and in bookmarks. -->
 <title>NBA Stat Checker</title>
+<!-- Connects this page to style.css, the file that controls colors, spacing, and layout. -->
 <link rel="stylesheet" href="style.css">
 </head>
+<!-- <body> holds everything the visitor actually sees on the page. -->
 <body>
+<!-- A "div" is a generic container box. This one (class "wrap") keeps all the content centered with a maximum width. -->
 <div class="wrap">
+<!-- ===== HEADER: the top bar with the site logo/name on the left and connection status on the right ===== -->
 <header>
+ <!-- Logo area: a basketball emoji in an orange square, followed by the site name and tagline (the <small> tag makes smaller text). -->
  <div class="brand"><div class="ball">🏀</div><div>NBA STAT CHECKER<small>THE GAME, BY THE NUMBERS</small></div></div>
+ <!-- Status light: the "dot" is a small colored circle, and the text next to it says whether live data is loading. script.js updates the text inside id="connection". -->
  <div class="status"><span class="dot"></span><span>Live data connection<br><b id="connection">Connecting…</b></span></div>
 </header>
+<!-- ===== HERO: the big welcome banner at the top of the page ===== -->
 <section class="hero">
+ <!-- Small label, then the main headline (<h1> is the most important heading), then a one-sentence description. -->
  <div><div class="eyebrow">NBA season dashboard</div><h1>Know the numbers.</h1><p>Explore NBA scores, player performance, team stats, and head-to-head comparisons in one place.</p></div>
+ <!-- script.js fills this in with the time the scoreboard was last refreshed. -->
  <div class="updated" id="updated">Last checked: —</div>
 </section>
+<!--
+  ===== NAVIGATION: the row of tab buttons =====
+  Clicking a tab shows one "page" section below and hides the others. This switching is done by script.js.
+  data-tab="..." is a custom attribute that stores which section each button should reveal.
+  The "active" class marks the tab that is currently selected (it gets the orange highlight).
+  aria-label gives screen readers (software that reads pages aloud to blind users) a description of this menu.
+-->
 <nav aria-label="Main navigation">
  <button class="tab active" data-tab="dashboard">Dashboard</button>
  <button class="tab" data-tab="players">Players</button>
@@ -27,59 +80,92 @@
  <button class="tab" data-tab="compare">Compare</button>
 </nav>
 
+<!-- <main> wraps the main content of the page. It contains four "page" sections, but only one is visible at a time. -->
 <main>
+<!--
+  ===== PAGE 1: DASHBOARD (visible by default) =====
+  It uses a "grid" layout. The classes span12, span7, and span5 say how many of 12 columns each card takes up.
+-->
 <section id="dashboard" class="page">
  <div class="grid">
+  <!-- CARD: today's live scoreboard. It spans all 12 columns (full width). -->
   <article class="card span12">
+   <!-- Card title plus a Refresh button. Clicking it re-downloads the scores. -->
    <div class="cardhead"><h2>Today's scoreboard</h2><button class="btn secondary" id="refreshScores">↻ Refresh</button></div>
+   <!-- script.js replaces this "Loading" message with game boxes once the data arrives. -->
    <div id="scores" class="scoregrid"><div class="loading">Loading NBA scoreboard…</div></div>
+   <!-- If the scoreboard fails to load, script.js shows an error message here. -->
    <div id="scoreError"></div>
   </article>
+  <!-- CARD: quick player search (takes 7 of 12 columns). -->
   <article class="card span7">
    <div class="cardhead"><h2>Find a player</h2><span class="tag">PLAYER LOOKUP</span></div>
+   <!-- A text box (<input>) where you type a name, and a Search button. "placeholder" is the faint hint text. autocomplete="off" stops the browser from suggesting old entries. -->
    <div class="controls"><input class="field search" id="dashPlayerSearch" placeholder="Search a player (e.g. Stephen Curry)" autocomplete="off"><button class="btn" id="dashPlayerGo">Search</button></div>
+   <!-- Search results and the chosen player's stats appear here. -->
    <div id="dashPlayerResults" class="result-list"><p class="tiny">Search to view a player's profile and statistics.</p></div>
   </article>
+  <!-- CARD: quick team explorer (takes the remaining 5 columns). -->
   <article class="card span5">
    <div class="cardhead"><h2>Explore teams</h2><span class="tag">30 NBA TEAMS</span></div>
+   <!-- A drop-down menu (<select>). script.js adds all 30 teams as choices. The "style" attribute applies a bit of CSS directly here. -->
    <select class="field" id="teamQuick" style="width:100%"><option value="">Choose a team…</option></select>
+   <!-- The selected team's information appears in this box. -->
    <div id="teamQuickInfo" class="placeholder" style="margin-top:12px">Select a team to inspect its profile.</div>
   </article>
  </div>
 </section>
 
+<!-- ===== PAGE 2: PLAYERS (starts hidden: the "hidden" class makes CSS hide it until its tab is clicked) ===== -->
 <section id="players" class="page hidden">
  <article class="card">
   <div class="cardhead"><h2>Player statistics</h2><span class="tag">SEASON STATS</span></div>
+  <!-- Search box and button for finding a player by name. -->
   <div class="controls"><input class="field search" id="playerSearch" placeholder="Enter player name…" autocomplete="off"><button class="btn" id="playerGo">Find player</button></div>
+  <!-- The list of matching players shows here. -->
   <div id="playerResults" class="result-list"></div>
+  <!-- The full stat profile of the player you click appears here. -->
   <div id="playerProfile" style="margin-top:18px"></div>
  </article>
 </section>
 
+<!-- ===== PAGE 3: TEAMS (hidden at first) ===== -->
 <section id="teams" class="page hidden">
  <article class="card">
   <div class="cardhead"><h2>Team statistics</h2><span class="tag">TEAM DIRECTORY</span></div>
+  <!-- Drop-down of teams plus a button to load the chosen team. -->
   <div class="controls"><select class="field search" id="teamSelect"><option value="">Choose an NBA team…</option></select><button class="btn" id="teamGo">View team</button></div>
+  <!-- The chosen team's player table appears here. -->
   <div id="teamProfile" style="margin-top:18px"></div>
+  <!-- Favorites section: teams you saved. They are stored in your own browser (see script.js for details). -->
   <div class="cardhead" style="margin-top:24px"><h2>Favorite teams</h2><span class="tag">SAVED IN THIS BROWSER</span></div>
   <div id="favoriteTeams" class="result-list"><p class="tiny">Loading saved teams…</p></div>
  </article>
 </section>
 
+<!-- ===== PAGE 4: COMPARE (hidden at first) ===== -->
 <section id="compare" class="page hidden">
  <article class="card">
   <div class="cardhead"><h2>Player vs. player</h2><span class="tag">HEAD-TO-HEAD</span></div>
   <p class="tiny">Search for two players, select each result, and compare their available season statistics.</p>
   <div class="grid">
+   <!-- Left half (6 of 12 columns): choose Player One. A <label> describes an input box; its "for" attribute links it to the input with the matching id. -->
    <div class="span6"><label class="tiny" for="compareSearch1">PLAYER ONE</label><div class="controls"><input class="field search" id="compareSearch1" placeholder="Search player one"><button class="btn" id="compareGo1">Find</button></div><div id="compareResults1" class="result-list"></div><div id="comparePick1" class="tiny">No player selected</div></div>
+   <!-- Right half: choose Player Two, built the same way. -->
    <div class="span6"><label class="tiny" for="compareSearch2">PLAYER TWO</label><div class="controls"><input class="field search" id="compareSearch2" placeholder="Search player two"><button class="btn" id="compareGo2">Find</button></div><div id="compareResults2" class="result-list"></div><div id="comparePick2" class="tiny">No player selected</div></div>
   </div>
+  <!-- Once both players are chosen, script.js draws the side-by-side comparison table here. -->
   <div id="comparison" style="margin-top:20px"></div>
  </article>
 </section>
 </main>
+<!-- Disclaimer at the bottom: says the site is a fan project and credits where the data comes from. -->
 <div class="footer">Unofficial fan-made project. Not affiliated with the NBA. Player and team statistics are provided by an independent community data service and may be delayed or unavailable. Live scoreboard data is provided by ESPN.</div>
 </div>
+<!--
+  Loads script.js, the file that makes the page interactive. It is placed at the very end so the page's
+  elements already exist when the script runs. "defer" tells the browser to run the script only after the
+  whole page has finished loading.
+-->
 <script src="script.js" defer></script>
 </body></html>
